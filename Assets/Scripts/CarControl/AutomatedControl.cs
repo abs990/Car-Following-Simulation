@@ -5,7 +5,7 @@ using UnityEngine;
 using System.Collections.Specialized;
 using Utils;
 
-namespace UnityCar
+namespace SimulationCar
 {
     public class AutomatedControl : MonoBehaviour
     {
