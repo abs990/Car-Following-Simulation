@@ -28,38 +28,20 @@ namespace UnityCar
             // get wheelcolliders and particles
             WheelCollider[] wC = gameObject.GetComponentsInChildren<WheelCollider>();
 
-            // WFC characteristics rear tyres
-            for (int i = 0; i < 2; i++)
+            for(int i=0; i<4; i++)
             {
                 // longitudinal slip (% of longitudinal travel) versus normalised load
                 awfcLong[i].extremumSlip = 0.15f;
                 awfcLong[i].extremumValue = 1.0f;
                 awfcLong[i].asymptoteSlip = 0.70f;
-                awfcLong[i].asymptoteValue = 0.60f;
-                awfcLong[i].stiffness = tyreFrictionRear;
+                awfcLong[i].asymptoteValue = i < 2 ? 0.60f : 0.70f;
+                awfcLong[i].stiffness = i < 2 ? tyreFrictionRear : tyreFrictionFront;
                 // lateral slip = radians slip versus normalised load
                 awfcLat[i].extremumSlip = 0.11f;
                 awfcLat[i].extremumValue = 1.0f;
                 awfcLat[i].asymptoteSlip = 0.80f;
                 awfcLat[i].asymptoteValue = 0.70f;
-                awfcLat[i].stiffness = tyreFrictionRear;
-            }
-
-            // WFC characteristics front tyres
-            for (int i = 2; i < 4; i++)
-            {
-                // longitudinal slip (% of longitudinal travel) versus normalised load
-                awfcLong[i].extremumSlip = 0.15f;
-                awfcLong[i].extremumValue = 1.0f;
-                awfcLong[i].asymptoteSlip = 0.70f;
-                awfcLong[i].asymptoteValue = 0.70f;
-                awfcLong[i].stiffness = tyreFrictionFront;
-                // lateral slip = radians slip versus normalised load
-                awfcLat[i].extremumSlip = 0.11f;
-                awfcLat[i].extremumValue = 1.0f;
-                awfcLat[i].asymptoteSlip = 0.80f;
-                awfcLat[i].asymptoteValue = 0.70f;
-                awfcLat[i].stiffness = tyreFrictionFront;
+                awfcLat[i].stiffness = i < 2 ? tyreFrictionRear : tyreFrictionFront;
             }
 
             // Assign the WFC data to the wheel colliders
