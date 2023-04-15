@@ -34409,6 +34409,7 @@ MonoBehaviour:
   brakingFactor: 15
   laneChange: 1
   randomSpawnGaps: 1
+  cameraSwitchInterval: 3
 --- !u!1 &1608598953
 GameObject:
   m_ObjectHideFlags: 0

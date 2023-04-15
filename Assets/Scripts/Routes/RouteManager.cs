@@ -33,11 +33,11 @@ public class RouteManager : MonoBehaviour
     public int velocityRandomizer = 5;
     public float brakingFactor = 2f;
     public bool laneChange = false;
-
     public bool randomSpawnGaps = false;
     private bool trackingStructuresInitialized = false;
-
-    private List<GameObject> laneChangeQueue = new List<GameObject>();
+    private GameObject[] routeCameras = new GameObject[3];
+    public float cameraSwitchInterval = 3.0f;
+    private float timeSinceLastCameraSwitch = 0.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -122,23 +122,26 @@ public class RouteManager : MonoBehaviour
         routeCameraBack.GetComponent<Camera>().targetDisplay = 0;
         GameObject routeCameraFront = new GameObject("routeCameraFront");
         routeCameraFront.AddComponent<Camera>();
-        routeCameraFront.GetComponent<Camera>().targetDisplay = 1;
+        routeCameraFront.GetComponent<Camera>().targetDisplay = 0;
         GameObject[] keys = new GameObject[this.leadCarTracker[0].Keys.Count];
         GameObject routeCameraTop = new GameObject("routeCameraTop");
         routeCameraTop.AddComponent<Camera>();
-        routeCameraTop.GetComponent<Camera>().targetDisplay = 2;
+        routeCameraTop.GetComponent<Camera>().targetDisplay = 0;
         if(keys.Length > 0)
         {
             this.leadCarTracker[0].Keys.CopyTo(keys, 0);
             routeCameraBack.transform.SetParent(keys[0].transform);
             routeCameraBack.transform.localPosition = new Vector3(-10f, 10f, -25f);
             routeCameraBack.transform.localRotation = Quaternion.identity;
+            routeCameras[0] = routeCameraBack;
             routeCameraFront.transform.SetParent(keys[this.leadCarTracker[0].Keys.Count - 1].transform);
             routeCameraFront.transform.localPosition = new Vector3(10f, 10f, 25f);
             routeCameraFront.transform.forward = Vector3.left;
+            routeCameras[1] = routeCameraFront;
             routeCameraTop.transform.SetParent(keys[0].transform);
             routeCameraTop.transform.localPosition = new Vector3(30f, 125f, 0f);
             routeCameraTop.transform.forward = Vector3.down;
+            routeCameras[2] = routeCameraTop;
         }
 
         // allow the vehicles to start
@@ -149,6 +152,9 @@ public class RouteManager : MonoBehaviour
                 car.GetComponent<AutomatedControl>().allowStart = true;
             }
         }
+
+        // set first camera to active
+        routeCameras[0].SetActive(true);
     }
 
     // Update is called once per frame
@@ -161,6 +167,29 @@ public class RouteManager : MonoBehaviour
             GameObject leadCar = keys[this.leadCarTracker[0].Keys.Count - 1];
             leadCar.GetComponent<AutomatedControl>().enabled = false;
             leadCar.GetComponent<UserInput>().enabled = true;
+        }
+    }
+
+    void LateUpdate()
+    {
+        // Increment the time since the last switch
+        timeSinceLastCameraSwitch += Time.deltaTime;
+
+        // Check if it's time to switch cameras
+        if (timeSinceLastCameraSwitch >= cameraSwitchInterval)
+        {
+            // Reset the time since the last switch
+            timeSinceLastCameraSwitch = 0.0f;
+
+            // Disable all cameras
+            foreach (var camera in routeCameras)
+            {
+                camera.SetActive(false);
+            }
+
+            // Choose a random camera and activate it
+            var randomCameraIndex = new System.Random().Next(0, routeCameras.Length);
+            routeCameras[randomCameraIndex].SetActive(true);
         }
     }
 
