@@ -34402,8 +34402,8 @@ MonoBehaviour:
   k_1A: 0.9
   k_2D: 0.9
   k_2A: 0.9
-  eta: 5
-  tau: 0.7
+  eta: 12.967
+  tau: 2.168
   baseVelocityBound: 40
   velocityRandomizer: 10
   brakingFactor: 15
