@@ -53,29 +53,10 @@ namespace UnityCar
                 }
                 else
                 {
-                    if (i < 2) 
-                    {
-                        // compute brake torques for rear
-                        brakeTorques[i] = maxBrakeTorqueRear * inputY;
-                    }
-                    else 
-                    {
-                        //compute brake otrques for front
-                        brakeTorques[i] = maxBrakeTorqueFront * inputY;
-                    }
+                    brakeTorques[i] = i < 2 ? maxBrakeTorqueRear * inputY : maxBrakeTorqueFront * inputY;
                 }
             }
             return brakeTorques;
         }
-
-        public float[] ApplyHandbrake(float[] brakeTorques)
-        {
-            for (int i = 0; i < 2; i++)
-            {
-                brakeTorques[i] = maxBrakeTorqueRear * -2.0f;
-            }
-            return brakeTorques;
-        }
-
     }
 }

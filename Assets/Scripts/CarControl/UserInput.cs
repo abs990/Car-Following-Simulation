@@ -29,18 +29,12 @@ namespace UnityCar
             get { return controllerInputReverse; }
         }
 
-        public float ControllerInputHandBrake
-        {
-            get { return controllerInputHandBrake; }
-        }
-
         // Update is called once per frame
         void Update()
         {
             controllerInputX = Input.GetAxis("Horizontal");
             controllerInputY = Input.GetAxis("Vertical");
             controllerInputReverse = Input.GetAxis("Reverse");
-            controllerInputHandBrake = Input.GetAxis("HandBrake");
         }
     }
 }

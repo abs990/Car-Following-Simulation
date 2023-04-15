@@ -70,21 +70,18 @@ namespace UnityCar
             float inputX = 0.0f;
             float inputY = 0.0f;
             float inputR = 0.0f;
-            float inputH = 0.0f;
 
             if (userInput.enabled)
             {
                 inputX = userInput.ControllerInputX;
                 inputY = userInput.ControllerInputY;
                 inputR = userInput.ControllerInputReverse;
-                inputH = userInput.ControllerInputHandBrake;
             }
             else if(automatedControl.enabled)
             {
                 inputX = automatedControl.ControllerInputX;
                 inputY = automatedControl.ControllerInputY;
                 inputR = 0;
-                inputH = 0;
             }
 
             // calculate vehicle velocity in the forward direction
@@ -128,9 +125,6 @@ namespace UnityCar
 
             // get requested brake torques
             float[] brakeTorques = brakes.GetBrakeTorques(inputY);
-
-            // if handbrake is on, brake rear wheels
-            if (inputH > 0.1f) brakes.ApplyHandbrake(brakeTorques);
 
             // Calculate a wheel rpm limit based on engine limit and transmission
             float wheelRPMLimit = Mathf.Abs(engine.GetEngineRPMMax / transmission.GetTransmissionRatio()) * 1.01f;
