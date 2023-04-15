@@ -141,16 +141,16 @@ namespace UnityCar
             
             if(leadCars == null || leadCars[currentLane] == null)
             {
-                Vector3 leadCarVelocity = this.gameObject.GetComponent<Rigidbody>().velocity;
+                float leadCarVelocity = this.GetComponent<CarController>().GetVel;
+                float currentBrakingDistance = (float)Math.Pow(leadCarVelocity, 2) / currentRouteManager.brakingFactor;
                 if(desiredDirection == Vector3.forward)
                 {
-                    float currentBrakingDistance = (float)Math.Pow(leadCarVelocity.z, 2) / currentRouteManager.brakingFactor;
                     float currentDistFromEnd = this.gameObject.GetComponentInParent<RouteManager>().routeEndPosition.z - this.transform.position.z;
                     if (currentBrakingDistance >= currentDistFromEnd)
                     {
                         controllerInputY = -1f;
                     }
-                    else if(leadCarVelocity.z < this.maxVelocity)
+                    else if(leadCarVelocity < this.maxVelocity)
                     {
                         controllerInputY = 1f;
                     }
@@ -161,13 +161,12 @@ namespace UnityCar
                 }
                 else if(desiredDirection == Vector3.right)
                 {
-                    float currentBrakingDistance = (float)Math.Pow(leadCarVelocity.x, 2) / currentRouteManager.brakingFactor;
                     float currentDistFromEnd = this.gameObject.GetComponentInParent<RouteManager>().routeEndPosition.x - this.transform.position.x;
                     if (currentBrakingDistance >= currentDistFromEnd)
                     {
                         controllerInputY = -1f;
                     }
-                    else if(leadCarVelocity.x < this.maxVelocity)
+                    else if(leadCarVelocity < this.maxVelocity)
                     {
                         controllerInputY = 1f;
                     }
