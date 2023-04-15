@@ -334,7 +334,9 @@ public class RouteManager : MonoBehaviour
         leadCarInAltLane = GetLeadCarInAltLane(car);
         followCarInAltLane = GetFollowCarInAltLane(car);
         if((leadCarInAltLane != null && GetInterCarDistance(leadCarInAltLane, car) < 20.0f) ||
-           (followCarInAltLane != null && GetInterCarDistance(car, followCarInAltLane) < 20.0f)
+           // (followCarInAltLane != null && GetInterCarDistance(car, followCarInAltLane) < 20.0f)
+           (followCarInAltLane != null && GetInterCarDistance(car, followCarInAltLane) < 
+                                            GetBrakingDistance(followCarInAltLane.GetComponent<CarController>().GetVel))
            )
         {
             return false;
@@ -577,5 +579,10 @@ public class RouteManager : MonoBehaviour
                 }
             }                 
         }
+    }
+
+    public float GetBrakingDistance(float velocity)
+    {
+        return (float)Math.Pow(velocity, 2) / this.brakingFactor;
     }
 }

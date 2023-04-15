@@ -142,7 +142,7 @@ namespace SimulationCar
             if(leadCars == null || leadCars[currentLane] == null)
             {
                 float leadCarVelocity = this.GetComponent<CarController>().GetVel;
-                float currentBrakingDistance = (float)Math.Pow(leadCarVelocity, 2) / currentRouteManager.brakingFactor;
+                float currentBrakingDistance = currentRouteManager.GetBrakingDistance(leadCarVelocity);
                 if(desiredDirection == Vector3.forward)
                 {
                     float currentDistFromEnd = this.gameObject.GetComponentInParent<RouteManager>().routeEndPosition.z - this.transform.position.z;
