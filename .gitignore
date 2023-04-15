@@ -73,3 +73,7 @@ crashlytics-build.properties
 
 # Other assets
 Assets/ARCADE - FREE Racing Car
+.DS_Store
+.vscode/settings.json
+Assets/.DS_Store
+Assets/.DS_Store
