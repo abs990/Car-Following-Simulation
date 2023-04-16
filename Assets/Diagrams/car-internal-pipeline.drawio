@@ -1,0 +1,27 @@
+<mxfile host="65bd71144e">
+    <diagram id="6gKfbnizzfIJv1aXVzMG" name="car-internal-pipeline">
+        <mxGraphModel dx="680" dy="727" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="2" value="Cruise Control&lt;br&gt;(lead or Weighted_AOVRV)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="10" y="240" width="120" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="this.apply_air_drag()&lt;br&gt;this.steer(steer_input)&lt;br&gt;this.suspension.apply_load_transfer()&lt;br&gt;this.transmission.update_gear(this.current_velocity)&lt;br&gt;this.wheel_torques.update(forward_input)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="220" y="240" width="300" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="4" value="" style="endArrow=classic;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="2" target="3">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="320" y="380" as="sourcePoint"/>
+                        <mxPoint x="370" y="330" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="5" value="forward_input, &lt;br&gt;steer_input" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="4">
+                    <mxGeometry x="0.175" y="1" relative="1" as="geometry">
+                        <mxPoint x="-5" y="-19" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

@@ -69,7 +69,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 07f44fe3e9c462146a7769b976c50ec4, type: 2}
     - target: {fileID: 919132149155446097, guid: e82c9748e1e7b4623adb969745408091, type: 3}
       propertyPath: m_Name
-      value: Modified Racing Car
+      value: yellow-racing-car
       objectReference: {fileID: 0}
     - target: {fileID: 2734342270795811214, guid: e82c9748e1e7b4623adb969745408091, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -203,12 +203,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 4394784215903869969}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86e57c5f1c45c48ebb40d15640e71d82, type: 3}
+  m_Script: {fileID: 11500000, guid: ca628b9ac4ef342c1a5a8b38e8e99441, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxVelocity: 50
-  brakingDistance: 120
-  controlLeadCar: 1
+  currentState: 0
+  laneSwitchAllowed: 0
+  allowStart: 0
+  intermediatePosition: 1
 --- !u!114 &2506606706170817671
 MonoBehaviour:
   m_ObjectHideFlags: 0

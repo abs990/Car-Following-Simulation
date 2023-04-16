@@ -33,7 +33,7 @@ namespace SimulationCar
         private Transmission transmission;
         private UserInput userInput;
 
-        private AutomatedControl automatedControl;
+        private CruiseControl automatedControl;
 
         void Awake()
         {
@@ -45,7 +45,7 @@ namespace SimulationCar
             suspension = GetComponent<Suspension>();
             transmission = GetComponent<Transmission>();
             userInput = GetComponent<UserInput>();
-            automatedControl = GetComponent<AutomatedControl>();
+            automatedControl = GetComponent<CruiseControl>();
 
             // set the physics clock to 120 Hz
             Time.fixedDeltaTime = SimulationSingleton.DELTA_TIME;
@@ -87,9 +87,9 @@ namespace SimulationCar
             // calculate vehicle velocity in the forward direction
             vel = transform.InverseTransformDirection(rB.velocity).z;
             Debug.Log(this.gameObject.name+" VELOCITY="+ vel);
-            Debug.Log(this.gameObject.name+" STATE="+this.gameObject.GetComponent<AutomatedControl>().currentState);
+            Debug.Log(this.gameObject.name+" STATE="+this.gameObject.GetComponent<CruiseControl>().currentState);
             Debug.Log(this.gameObject.name+" POSITION="+this.gameObject.transform.position);
-            Debug.Log(this.gameObject.name+" INTERMEDIATE_POSITION="+this.gameObject.GetComponent<AutomatedControl>().intermediatePosition);
+            Debug.Log(this.gameObject.name+" INTERMEDIATE_POSITION="+this.gameObject.GetComponent<CruiseControl>().intermediatePosition);
 
             // update aerodynamic drag and lift
             aeroDynamics.ApplyAeroDrag(vel);

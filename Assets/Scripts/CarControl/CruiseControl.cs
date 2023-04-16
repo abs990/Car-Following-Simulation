@@ -7,7 +7,7 @@ using Utils;
 
 namespace SimulationCar
 {
-    public class AutomatedControl : MonoBehaviour
+    public class CruiseControl : MonoBehaviour
     {
         private float controllerInputX;
         private float controllerInputY;

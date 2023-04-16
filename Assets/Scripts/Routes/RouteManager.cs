@@ -150,7 +150,7 @@ public class RouteManager : MonoBehaviour
         {
             foreach(GameObject car in this.leadCarTracker[l].Keys)
             {
-                car.GetComponent<AutomatedControl>().allowStart = true;
+                car.GetComponent<CruiseControl>().allowStart = true;
             }
         }
 
@@ -166,7 +166,7 @@ public class RouteManager : MonoBehaviour
             GameObject[] keys = new GameObject[this.leadCarTracker[0].Keys.Count];
             this.leadCarTracker[0].Keys.CopyTo(keys, 0);
             GameObject leadCar = keys[this.leadCarTracker[0].Keys.Count - 1];
-            leadCar.GetComponent<AutomatedControl>().enabled = false;
+            leadCar.GetComponent<CruiseControl>().enabled = false;
             leadCar.GetComponent<UserInput>().enabled = true;
         }
     }
@@ -412,7 +412,7 @@ public class RouteManager : MonoBehaviour
 
     private SimulationSingleton.CarState GetCurrentCarState(GameObject car)
     {
-        return car.GetComponent<AutomatedControl>().currentState;
+        return car.GetComponent<CruiseControl>().currentState;
     }
 
     private float GetInterCarDistance(GameObject car1, GameObject car2)
@@ -482,7 +482,7 @@ public class RouteManager : MonoBehaviour
         else if(currentCarState == SimulationSingleton.CarState.LANE_SWITCH)
         {
             float intermediatePosition = GetCarIntermediateFractionPosition(car);
-            car.GetComponent<AutomatedControl>().intermediatePosition = intermediatePosition;
+            car.GetComponent<CruiseControl>().intermediatePosition = intermediatePosition;
 
             if(leadCarInCurrentLane != null)
             {
