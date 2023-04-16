@@ -39,6 +39,8 @@ public class RouteManager : MonoBehaviour
     public float cameraSwitchInterval = 3.0f;
     private float timeSinceLastCameraSwitch = 0.0f;
 
+    public int targetDisplayIndex = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -74,7 +76,9 @@ public class RouteManager : MonoBehaviour
                     continue;
                 }
 
-                GameObject newCar = UnityEngine.Object.Instantiate(prefab, availableSpawnPosition + new Vector3(0f, 0f, -l * laneOffset), spawnRotation);
+                GameObject newCar;
+                Vector3 offset = varyX ? new Vector3(0f, 0f, -l * laneOffset) : new Vector3(-l * laneOffset, 0f, 0f);
+                newCar = UnityEngine.Object.Instantiate(prefab, availableSpawnPosition + offset, spawnRotation);
                 newCar.name = "Car" + l.ToString()+ i.ToString();
                 // disable user input
                 newCar.GetComponent<UserInput>().enabled = false;
@@ -120,14 +124,14 @@ public class RouteManager : MonoBehaviour
         // setup cameras
         GameObject routeCameraBack = new GameObject("routeCameraBack");
         routeCameraBack.AddComponent<Camera>();
-        routeCameraBack.GetComponent<Camera>().targetDisplay = 0;
+        routeCameraBack.GetComponent<Camera>().targetDisplay = targetDisplayIndex;
         GameObject routeCameraFront = new GameObject("routeCameraFront");
         routeCameraFront.AddComponent<Camera>();
-        routeCameraFront.GetComponent<Camera>().targetDisplay = 0;
+        routeCameraFront.GetComponent<Camera>().targetDisplay = targetDisplayIndex;
         GameObject[] keys = new GameObject[this.leadCarTracker[0].Keys.Count];
         GameObject routeCameraTop = new GameObject("routeCameraTop");
         routeCameraTop.AddComponent<Camera>();
-        routeCameraTop.GetComponent<Camera>().targetDisplay = 0;
+        routeCameraTop.GetComponent<Camera>().targetDisplay = targetDisplayIndex;
         if(keys.Length > 0)
         {
             this.leadCarTracker[0].Keys.CopyTo(keys, 0);
@@ -137,7 +141,7 @@ public class RouteManager : MonoBehaviour
             routeCameras[0] = routeCameraBack;
             routeCameraFront.transform.SetParent(keys[this.leadCarTracker[0].Keys.Count - 1].transform);
             routeCameraFront.transform.localPosition = new Vector3(10f, 10f, 25f);
-            routeCameraFront.transform.forward = Vector3.left;
+            routeCameraFront.transform.forward = varyX? Vector3.left : Vector3.back;
             routeCameras[1] = routeCameraFront;
             routeCameraTop.transform.SetParent(keys[0].transform);
             routeCameraTop.transform.localPosition = new Vector3(30f, 125f, 0f);
@@ -298,7 +302,7 @@ public class RouteManager : MonoBehaviour
         return intermediatePosition;        
     }
 
-    public bool LaneSwitchPreCheck(GameObject car)
+    public bool LaneSwitchSafetyCheck(GameObject car)
     {
         Debug.Log("Lane Switch Pre-Check::In-Progress::"+car.name);
         int laneNum = GetCurrentLane(car);

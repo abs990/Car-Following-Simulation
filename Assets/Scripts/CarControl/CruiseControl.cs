@@ -77,7 +77,7 @@ namespace SimulationCar
                 if(this.laneSwitchAllowed && 
                    controllerInputY > 0 &&
                    this.GetComponent<CarController>().GetVel >= 20f && 
-                   currentRouteManager.LaneSwitchPreCheck(this.gameObject))
+                   currentRouteManager.LaneSwitchSafetyCheck(this.gameObject))
                 {
                     currentState = SimulationSingleton.CarState.LANE_SWITCH;
                 }

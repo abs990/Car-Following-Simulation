@@ -34410,6 +34410,7 @@ MonoBehaviour:
   laneChange: 1
   randomSpawnGaps: 1
   cameraSwitchInterval: 3
+  targetDisplayIndex: 0
 --- !u!1 &1608598953
 GameObject:
   m_ObjectHideFlags: 0
