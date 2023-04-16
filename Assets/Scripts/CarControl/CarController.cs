@@ -86,6 +86,10 @@ namespace SimulationCar
 
             // calculate vehicle velocity in the forward direction
             vel = transform.InverseTransformDirection(rB.velocity).z;
+            Debug.Log(this.gameObject.name+" VELOCITY="+ vel);
+            Debug.Log(this.gameObject.name+" STATE="+this.gameObject.GetComponent<AutomatedControl>().currentState);
+            Debug.Log(this.gameObject.name+" POSITION="+this.gameObject.transform.position);
+            Debug.Log(this.gameObject.name+" INTERMEDIATE_POSITION="+this.gameObject.GetComponent<AutomatedControl>().intermediatePosition);
 
             // update aerodynamic drag and lift
             aeroDynamics.ApplyAeroDrag(vel);

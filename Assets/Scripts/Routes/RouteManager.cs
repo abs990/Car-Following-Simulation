@@ -82,6 +82,7 @@ public class RouteManager : MonoBehaviour
                 newCar.transform.SetParent(this.transform);
                 // assign car lane switch flag
                 this.laneSwitchFlags[l].Add(newCar, carLaneSwitchRandomiser.Next(laneSwitchParameter) == 1);
+                Debug.Log(newCar.name+" LANE CHANGE ALLOWED="+this.laneSwitchFlags[l][newCar]);
                 // this.laneSwitchFlags[l].Add(newCar, true);
                 // update lead car tracker
                 this.leadCarTracker[l].Add(newCar, new GameObject[]{null, null});
@@ -116,7 +117,7 @@ public class RouteManager : MonoBehaviour
             }
         }
 
-        // add camera to first spawned car in first lane
+        // setup cameras
         GameObject routeCameraBack = new GameObject("routeCameraBack");
         routeCameraBack.AddComponent<Camera>();
         routeCameraBack.GetComponent<Camera>().targetDisplay = 0;
@@ -294,7 +295,6 @@ public class RouteManager : MonoBehaviour
             intermediatePosition /= this.laneOffset;
         }
         intermediatePosition = Math.Abs(intermediatePosition) < 0.1f ? 0 : intermediatePosition;
-        print("Intermediate pos"+" "+car.name+" "+intermediatePosition);
         return intermediatePosition;        
     }
 
@@ -320,8 +320,8 @@ public class RouteManager : MonoBehaviour
 
                 float currentDist = GetInterCarDistance(leadCar, car);           
                 
-                Debug.Log("Lane Switch Pre-Check::In-Progress::"+car.name+" "+leadCar.name+" "+currentDist);
-                if(currentDist < 15.0f || GetCurrentCarState(leadCar) == SimulationSingleton.CarState.LANE_SWITCH)
+                if(currentDist < 15.0f || 
+                   GetCurrentCarState(leadCar) == SimulationSingleton.CarState.LANE_SWITCH)
                 {
                     return false;
                 }
@@ -334,10 +334,9 @@ public class RouteManager : MonoBehaviour
         leadCarInAltLane = GetLeadCarInAltLane(car);
         followCarInAltLane = GetFollowCarInAltLane(car);
         if((leadCarInAltLane != null && GetInterCarDistance(leadCarInAltLane, car) < 20.0f) ||
-           // (followCarInAltLane != null && GetInterCarDistance(car, followCarInAltLane) < 20.0f)
            (followCarInAltLane != null && GetInterCarDistance(car, followCarInAltLane) < 
-                                            GetBrakingDistance(followCarInAltLane.GetComponent<CarController>().GetVel))
-           )
+                                            Mathf.Max(GetBrakingDistance(followCarInAltLane.GetComponent<CarController>().GetVel), 20.0f))
+          )
         {
             return false;
         }
@@ -358,14 +357,12 @@ public class RouteManager : MonoBehaviour
         {
             float currentDist = GetInterCarDistance(currentObject, car);
 
-            if(currentDist > 0f && currentDist < minDist)
+            if(currentDist >= 0f && currentDist < minDist)
             {
                 leadCarInAltLane = currentObject;
                 minDist = currentDist;
             }
         }
-
-        if(leadCarInAltLane != null) Debug.Log("GetLeadCarInAltLane for "+car.name+" "+leadCarInAltLane.name);
 
         return leadCarInAltLane;        
     }
@@ -402,7 +399,7 @@ public class RouteManager : MonoBehaviour
             if(currentCar != car)
             {
                 float currentDist = GetInterCarDistance(currentCar, car);
-                if(currentDist > 0f && currentDist < minDist)
+                if(currentDist >= 0f && currentDist < minDist)
                 {
                     leadCarInCurrentLane = currentCar;
                     minDist = currentDist;
@@ -410,7 +407,6 @@ public class RouteManager : MonoBehaviour
             }
         }
 
-        if(leadCarInCurrentLane != null) Debug.Log("GetLeadCarInCurrentLane for "+car.name+" "+leadCarInCurrentLane.name);
         return leadCarInCurrentLane;      
     }
 
@@ -486,6 +482,7 @@ public class RouteManager : MonoBehaviour
         else if(currentCarState == SimulationSingleton.CarState.LANE_SWITCH)
         {
             float intermediatePosition = GetCarIntermediateFractionPosition(car);
+            car.GetComponent<AutomatedControl>().intermediatePosition = intermediatePosition;
 
             if(leadCarInCurrentLane != null)
             {

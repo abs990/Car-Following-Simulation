@@ -24,8 +24,10 @@ namespace SimulationCar
         private float eta;
         private float tou;
         public Utils.SimulationSingleton.CarState currentState = SimulationSingleton.CarState.IDLE;
-        private bool laneSwitchAllowed;
+        public bool laneSwitchAllowed;
         public bool allowStart = false;
+
+        public float intermediatePosition = 1f;
 
         public float ControllerInputX
         {
@@ -67,9 +69,7 @@ namespace SimulationCar
             {
                 return;
             }
-
-            print(this.gameObject.name+" "+this.currentState+" "+controllerInputY+" "+controllerInputX);
-
+            
             ForwardDriveUpdate();
 
             if(currentState == SimulationSingleton.CarState.STRAIGHT_DRIVE)
@@ -91,8 +91,7 @@ namespace SimulationCar
                 float targetLinePosition = desiredDirection == Vector3.forward ? currentRouteManager.routeStartPosition.x : 
                                                                                  currentRouteManager.routeStartPosition.z;
                 targetLinePosition -= currentLane == 0 ? currentRouteManager.laneOffset : 0f;
-                print(this.gameObject.name+" Target Line Position "+targetLinePosition+" "+Math.Abs(currentLinePosition - targetLinePosition));
-                if(Math.Abs(currentLinePosition - targetLinePosition) <= 1f)
+                if(Math.Abs(currentLinePosition - targetLinePosition) <= 0.1f)
                 {
                     controllerInputX = 0f;
                     currentState = SimulationSingleton.CarState.STRAIGHT_DRIVE;
@@ -178,7 +177,7 @@ namespace SimulationCar
             }
             else
             {
-                print("Lead Cars "+this.gameObject.name+" "+leadCarWeights[0]+" "+leadCars[0]+" "+leadCarWeights[1]+" "+leadCars[1]);
+                print(this.gameObject.name+" LEAD_CARS "+leadCarWeights[0]+" "+leadCars[0]+" "+leadCarWeights[1]+" "+leadCars[1]);
                 float forwardDelta = 0f;
 
                 // weighted AOVRV
