@@ -138,7 +138,7 @@ namespace SimulationCar
             float[] leadCarWeights = currentRouteManager.GetLeadCarWeights(this.gameObject);
             int currentLane = currentRouteManager.GetCurrentLane(this.gameObject);
             
-            if(leadCars == null || leadCars[currentLane] == null)
+            if(leadCars == null || (leadCars[currentLane] == null && leadCars[1 - currentLane] == null))
             {
                 float leadCarVelocity = this.GetComponent<CarController>().GetVel;
                 float currentBrakingDistance = currentRouteManager.GetBrakingDistance(leadCarVelocity);

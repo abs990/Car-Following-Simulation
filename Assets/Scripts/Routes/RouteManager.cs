@@ -22,7 +22,7 @@ public class RouteManager : MonoBehaviour
     public Vector3 routeStartPosition;
     public Vector3 routeEndPosition;
     public Quaternion spawnRotation;
-    public bool controlLeadCar = false;
+    private bool controlLeadCar = false;
     public float k_1D = 0.5f;
     public float k_1A = 0.9f;
     public float k_2D = 0.5f;
@@ -34,6 +34,8 @@ public class RouteManager : MonoBehaviour
     public float brakingFactor = 2f;
     public bool laneChange = false;
     public bool randomSpawnGaps = false;
+    public int maxSpawnGaps = 3;
+    private int numSpawnGaps = 0;
     private bool trackingStructuresInitialized = false;
     private GameObject[] routeCameras = new GameObject[3];
     public float cameraSwitchInterval = 3.0f;
@@ -71,8 +73,9 @@ public class RouteManager : MonoBehaviour
         {
             for(int l=0; l < numLanes; l++)
             {
-                if(randomSpawnGaps & carSpawnRandomiser.Next(2) == 0)
+                if(randomSpawnGaps && numSpawnGaps < maxSpawnGaps && carSpawnRandomiser.Next(2) == 0)
                 {
+                    numSpawnGaps += 1;
                     continue;
                 }
 

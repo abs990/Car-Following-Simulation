@@ -34397,7 +34397,6 @@ MonoBehaviour:
   routeStartPosition: {x: -525, y: 0, z: -727}
   routeEndPosition: {x: 500, y: 0, z: -727}
   spawnRotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
-  controlLeadCar: 0
   k_1D: 0.9
   k_1A: 0.9
   k_2D: 0.9
@@ -34409,7 +34408,8 @@ MonoBehaviour:
   brakingFactor: 15
   laneChange: 1
   randomSpawnGaps: 1
-  cameraSwitchInterval: 3
+  maxSpawnGaps: 8
+  cameraSwitchInterval: 2
   targetDisplayIndex: 0
 --- !u!1 &1608598953
 GameObject:
